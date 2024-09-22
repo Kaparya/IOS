@@ -1,7 +1,3 @@
 #  Two screens application (profile)
 
-
-
-
-https://github.com/user-attachments/assets/65c8ef8d-748e-44a8-b76a-2a1a7c9f49ef
-
+https://github.com/user-attachments/assets/e8b09299-4379-44da-8cc9-8101ac49610c
