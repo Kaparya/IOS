@@ -1,0 +1,268 @@
+//
+//  CollectionViewController.swift
+//  TabBar
+//
+//  Created by Damir Kandelov on 20.10.2024.
+//
+
+import UIKit
+
+final class CollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    private enum CollectionSectionType: Int, CaseIterable {
+        case goods = 0
+        case products = 1
+    }
+    
+    private let data = ["Товар 1", "Товар 2", "Товар 3", "Товар 4", "Товар 5"]
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        return collectionView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
+    }
+    
+    private func configureUI() {
+        view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+}
+
+extension CollectionViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        guard let section = CollectionSectionType(rawValue: indexPath.section) else {
+            return CGSize.zero
+        }
+        
+        switch section {
+        case .goods:
+//            if indexPath.row == 2 {
+//                return CGSize(width: 400, height: 200)
+//            }
+            return CGSize(width: view.frame.width / 3, height: 50)
+        case .products:
+            return CGSize(width: 100, height: 100)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        guard let section = CollectionSectionType(rawValue: section) else {
+            return UIEdgeInsets.zero
+        }
+        
+        switch section {
+        case .goods:
+            return UIEdgeInsets(top: 32, left: 16, bottom: 0, right: 16)
+        case .products:
+            return UIEdgeInsets(top: 32, left: 16, bottom: 0, right: 16)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        40
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        16
+    }
+}
+
+extension CollectionViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        CollectionSectionType.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let section = CollectionSectionType(rawValue: section) else { return 0 }
+        
+        switch section {
+        case .goods:
+            return data.count
+        case .products:
+            return data2.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let section = CollectionSectionType(rawValue: indexPath.section) else { return UICollectionViewCell() }
+        
+        switch section {
+        case .goods:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "collectionCell",
+                for: indexPath
+            )
+            cell.contentView.backgroundColor = .red
+            return cell
+            
+        case .products:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "collectionCell",
+                for: indexPath
+            )
+            cell.contentView.backgroundColor = .black
+            return cell
+        }
+    }
+}
+
+extension CollectionViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print()
+    }
+}
+
+
+import UIKit
+
+final class CollectionViewController: UIViewController {
+    
+    private enum CollectionSectionType: Int, CaseIterable {
+        case goods = 0
+        case products = 1
+    }
+    
+    private let data = ["Товар 1", "Товар 2", "Товар 3", "Товар 4", "Товар 5"]
+    private var data2 = ["1", "2", "3"]
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        return collectionView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
+    }
+    
+    private func configureUI() {
+        view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+}
+
+extension CollectionViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        guard let section = CollectionSectionType(rawValue: indexPath.section) else {
+            return CGSize.zero
+        }
+        
+        switch section {
+        case .goods:
+//            if indexPath.row == 2 {
+//                return CGSize(width: 400, height: 200)
+//            }
+            return CGSize(width: view.frame.width / 3, height: 50)
+        case .products:
+            return CGSize(width: 100, height: 100)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        guard let section = CollectionSectionType(rawValue: section) else {
+            return UIEdgeInsets.zero
+        }
+        
+        switch section {
+        case .goods:
+            return UIEdgeInsets(top: 32, left: 16, bottom: 0, right: 16)
+        case .products:
+            return UIEdgeInsets(top: 32, left: 16, bottom: 0, right: 16)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        40
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        16
+    }
+}
+
+extension CollectionViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        CollectionSectionType.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let section = CollectionSectionType(rawValue: section) else { return 0 }
+        
+        switch section {
+        case .goods:
+            return data.count
+        case .products:
+            return data2.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let section = CollectionSectionType(rawValue: indexPath.section) else { return UICollectionViewCell() }
+        
+        switch section {
+        case .goods:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "collectionCell",
+                for: indexPath
+            )
+            cell.contentView.backgroundColor = .red
+            return cell
+            
+        case .products:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "collectionCell",
+                for: indexPath
+            )
+            cell.contentView.backgroundColor = .black
+            return cell
+        }
+    }
+}
+
+extension CollectionViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print()
+    }
+}
